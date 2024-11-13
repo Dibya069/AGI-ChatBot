@@ -1,0 +1,22 @@
+## For AI LLM
+langchain 
+langchain_core 
+langchain_groq 
+groq 
+
+## For AGI
+langchain_community
+wikipedia 
+langgraph
+
+## Web API
+Flask 
+flask-cors 
+requests
+python-dotenv
+
+## DataBase
+pymongo
+dnspython 
+email-validator
+Flask-PyMongo
