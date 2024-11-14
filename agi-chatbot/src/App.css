@@ -1,38 +1,56 @@
-.App {
-  text-align: center;
+/* Add your styles here to match the design provided */
+
+.container {
+  display: flex;
+  height: 100vh;
+  font-family: Arial, sans-serif;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.sidebar {
+  width: 200px;
+  background-color: #333;
+  color: white;
+  padding: 20px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.main-content {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  padding: 20px;
+}
+
+.chat-display {
+  flex-grow: 1;
+  background-color: #f1f1f1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  overflow-y: auto;
+}
+
+.output-screen {
+  background-color: #e7f7e7;
+  padding: 10px;
+  border: 1px solid green;
+  margin-top: 10px;
+}
+
+.input-bar {
+  display: flex;
+  margin-top: 10px;
+}
+
+input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px 0 0 5px;
+}
+
+button {
+  padding: 10px;
+  border: none;
+  background-color: #333;
   color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  border-radius: 0 5px 5px 0;
 }

@@ -32,9 +32,21 @@ def agi_cb():
 
     responses = []
     for event in events:
-        responses.append(event["messages"][-1].pretty_print())
+        # Capture each message response in a serializable format
+        message = event["messages"][-1].pretty_print()
+        if isinstance(message, (str, int, float, list, dict)):
+            responses.append(message)
+        else:
+            responses.append(str(message))  # Convert non-serializable types to string
 
-    return jsonify({"response": responses})
+    # Fetch snapshot and serialize it properly
+    snapshot = graph_memory.get_state(config)
+    final_response = snapshot.values["messages"][-1].pretty_print()
+    
+    if not isinstance(final_response, (str, int, float, list, dict)):
+        final_response = str(final_response)
+
+    return jsonify({"response": final_response, "streamed_responses": responses})
 
 @app.route('/new-thread', methods=['POST'])
 def new_thread():
