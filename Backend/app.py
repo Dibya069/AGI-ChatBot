@@ -1,5 +1,6 @@
 from flask import Flask, request, render_template, jsonify, send_file
 from flask_cors import CORS
+import json
 import requests
 
 from Backend.components.graphBuild import graph_memory
@@ -19,7 +20,7 @@ def agi_cb():
     global thread_counter
     data = request.json
     user_input = data.get("message", "")
-    thread_id = data.get("thread_id", 1)
+    thread_id = data.get("thread_id", 2)
     
     config = {"configurable": {"thread_id": str(thread_id)}}
 
@@ -30,23 +31,31 @@ def agi_cb():
         {"messages": [("user", user_input)]}, config, stream_mode="values"
     )
 
-    responses = []
+    serialized_responses = []
     for event in events:
-        # Capture each message response in a serializable format
-        message = event["messages"][-1].pretty_print()
-        if isinstance(message, (str, int, float, list, dict)):
-            responses.append(message)
-        else:
-            responses.append(str(message))  # Convert non-serializable types to string
+        # Convert each event to a dictionary that includes all metadata
+        message = event["messages"][-1]
+        
+        # Prepare a serialized version with full metadata details
+        serialized_message = {
+            "id": message.id,
+            "content": message.content,
+        }
+        
+        # If the message has tool calls, add those as well
+        if hasattr(message, 'tool_calls'):
+            serialized_message["tool_calls"] = message.tool_calls
+
+        serialized_responses.append(json.dumps(serialized_message))
+        serialized_responses.append("\n =========== Next Loop ===========\n")
 
     # Fetch snapshot and serialize it properly
     snapshot = graph_memory.get_state(config)
     existing_message = snapshot.values["messages"][-1]
     
-    # if not isinstance(final_response, (str, int, float, list, dict)):
-    #     final_response = str(final_response)
-    print("::::::::::::::==> ", existing_message.pretty_print())
-    return jsonify({"response": existing_message.pretty_print(), "streamed_responses": responses})
+    final_res = existing_message.content
+
+    return jsonify({"response": final_res, "streamed_responses": serialized_responses})
 
 @app.route('/new-thread', methods=['POST'])
 def new_thread():
