@@ -26,7 +26,6 @@ function App() {
     const streamedResponses = response.data.streamed_responses;
     const finalResponse = response.data.response;
 
-    // Update chat messages with streamed responses and final response
     setMessages([...messages, { user: message, bot: finalResponse }]);
     setOutput(streamedResponses); // Set streamed responses in output screen
   };
