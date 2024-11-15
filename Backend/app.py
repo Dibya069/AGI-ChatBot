@@ -1,16 +1,16 @@
-from flask import Flask, request, render_template, jsonify, send_file
+from flask import Flask, request, render_template, jsonify, send_from_directory
 from flask_cors import CORS
 import json
 import requests, markdown
 
 from Backend.components.graphBuild import graph_memory
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static')
 CORS(app)
 
 @app.route('/')
 def index():
-    return 'Welcome to my Flask App!'
+    return send_from_directory(app.static_folder, 'index.html')
 
 thread_counter = 1
 
@@ -62,6 +62,11 @@ def new_thread():
     global thread_counter
     thread_counter += 1
     return jsonify({"new_thread_id": thread_counter})
+
+# Serve React static files
+@app.route('/<path:path>')
+def serve_react(path):
+    return send_from_directory(app.static_folder, path)
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
