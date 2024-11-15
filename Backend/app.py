@@ -1,10 +1,9 @@
 from flask import Flask, request, render_template, jsonify, send_file
 from flask_cors import CORS
 import json
-import requests
+import requests, markdown
 
 from Backend.components.graphBuild import graph_memory
-
 
 app = Flask(__name__)
 CORS(app)
@@ -33,6 +32,7 @@ def agi_cb():
 
     serialized_responses = []
     for event in events:
+        event["messages"][-1].pretty_print()
         # Convert each event to a dictionary that includes all metadata
         message = event["messages"][-1]
         
@@ -53,7 +53,7 @@ def agi_cb():
     snapshot = graph_memory.get_state(config)
     existing_message = snapshot.values["messages"][-1]
     
-    final_res = existing_message.content
+    final_res = markdown.markdown(existing_message.content)
 
     return jsonify({"response": final_res, "streamed_responses": serialized_responses})
 
