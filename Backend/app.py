@@ -47,7 +47,7 @@ def agi_cb():
             serialized_message["tool_calls"] = message.tool_calls
 
         serialized_responses.append(json.dumps(serialized_message))
-        serialized_responses.append("\n =========== Next Loop ===========\n")
+        serialized_responses.append("==== Next Call =====")
 
     # Fetch snapshot and serialize it properly
     snapshot = graph_memory.get_state(config)

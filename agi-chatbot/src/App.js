@@ -33,12 +33,12 @@ function App() {
   return (
     <div className="container">
       <Sidebar addNewThread={addNewThread} />
-      <div className="main-content">
-        <h1>AGI Chatbot</h1>
+      <div className="chat-container">
+        <h1 className="title">AGI Chatbot</h1>
         <ChatDisplay messages={messages} />
-        <OutputScreen output={output} />
         <InputBar sendMessage={sendMessage} />
       </div>
+      <OutputScreen output={output} />
     </div>
   );
 }
