@@ -117,9 +117,23 @@ The frontend should be running at `http://localhost:3000`, and the backend API s
 - ChatApp.js: Handles user input, API calls, and thread management.
 - ChatDisplay.js: Displays the chat conversation between the user and AI.
 
-#### Known Issues
-- Ensure the Flask backend is running on localhost:5000 to avoid CORS issues.
-- TypeError: If you encounter "TypeError: msg.bot.join is not a function," ensure that the response from the backend is properly formatted.
+#### Docker Connection and CI / CD Pipeline connection
+1. Docker
+ - After creating the `Dockerfile` and start the docker engine run the code `docker build -t agi_chatbot_image .` to build the docker image
+ - Now to run that specific docker image run the code `docker run -p 5000:5000 agi_chatbot_image`
+ - Now to build a repository in the docker run the code `docker tag agi_chatbot_image dibya69/agi_chatbot:latest`
+ - Now to push the docker image from local to the docker hub repositroy run the code `docker push dibya69/agi_chatbot:latest`
+2. CI/CD Pipeline [Github_action]
+ - create the `.github` folder, inside `workflows` folder and inside `main.yaml` file to initate the CI/CD pipeline
+ - to give all the secreate credential:
+    ```
+    Click on Settings (in the repository menu).
+    In the sidebar, under Security, select Secrets and variables > Actions.
+    Click on New repository secret.
+    Add two secrets:
+    Name: `DOCKER_USERNAME`, Value: *****
+    Name: `DOCKER_PASSWORD`, Value: **********
+    ```
 
 #### Future Enhancements
 - Add more AI processing capabilities and refine response quality.
