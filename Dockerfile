@@ -23,5 +23,8 @@ COPY --from=frontend /app/build /app/Backend/static
 # Expose the port Flask will run on
 EXPOSE 5000
 
+# Set the working directory back to the backend folder
+WORKDIR /app/Backend
+
 # Start the Flask application
-CMD ["python", "Backend/app.py"]
+CMD ["python", "app.py"]
