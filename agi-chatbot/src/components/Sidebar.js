@@ -1,14 +1,19 @@
 import React from "react";
 
-const Sidebar = ({ addNewThread }) => {
+const Sidebar = ({ threads, addNewThread, selectThread, currentThread }) => {
     return (
         <div className="sidebar">
-        <button onClick={addNewThread}>+</button>
-        <div className="threads">
-            <div className="thread">Thread 1</div>
-            <div className="thread">Thread 2</div>
-            {/* Display threads dynamically */}
-        </div>
+            <button onClick={addNewThread} className="threads_button">Add New Thread</button>
+            <div className="threads">
+                {threads.map((thread) => (
+                    <div 
+                    key={thread} 
+                    className={`thread ${currentThread === thread ? "active" : ""}`} 
+                    onClick={() => selectThread(thread)}
+                    >  {thread}
+                    </div>
+                ))}
+            </div>
         </div>
     );
 };
